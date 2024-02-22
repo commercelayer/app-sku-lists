@@ -1,6 +1,7 @@
 import {
   Button,
   Dropdown,
+  DropdownDivider,
   DropdownItem,
   EmptyState,
   InputReadonly,
@@ -67,6 +68,18 @@ export const SkuListDetails = (
 
   const pageTitle = skuList?.name
 
+  const contextMenuEdit = canUser('update', 'sku_lists') && (
+    <DropdownItem
+      label='Edit'
+      onClick={() => {
+        setLocation(appRoutes.edit.makePath({ skuListId }))
+      }}
+    />
+  )
+
+  const contextMenuDivider = canUser('update', 'sku_lists') &&
+    canUser('destroy', 'sku_lists') && <DropdownDivider />
+
   const contextMenuDelete = canUser('destroy', 'sku_lists') && (
     <DropdownItem
       label='Delete'
@@ -76,7 +89,17 @@ export const SkuListDetails = (
     />
   )
 
-  const contextMenu = <Dropdown dropdownItems={<>{contextMenuDelete}</>} />
+  const contextMenu = (
+    <Dropdown
+      dropdownItems={
+        <>
+          {contextMenuEdit}
+          {contextMenuDivider}
+          {contextMenuDelete}
+        </>
+      }
+    />
+  )
 
   return (
     <PageLayout

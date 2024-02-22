@@ -1,22 +1,19 @@
 import {
   Avatar,
-  Icon,
   ListItem,
   Text,
-  withSkeletonTemplate,
-  type ListItemProps
+  withSkeletonTemplate
 } from '@commercelayer/app-elements'
 import type { Sku } from '@commercelayer/sdk'
 import { makeSku } from 'src/mocks/resources/skus'
 
 interface Props {
   resource?: Sku
-  variant: ListItemProps['variant']
   onSelect?: (resource: Sku) => void
 }
 
 export const ListItemSku = withSkeletonTemplate<Props>(
-  ({ resource = makeSku(), variant, onSelect }) => {
+  ({ resource = makeSku(), onSelect }) => {
     return (
       <ListItem
         tag='a'
@@ -33,7 +30,6 @@ export const ListItemSku = withSkeletonTemplate<Props>(
           />
         }
         className='bg-white'
-        variant={variant}
       >
         <div>
           <Text tag='div' variant='info' weight='semibold'>
@@ -43,9 +39,6 @@ export const ListItemSku = withSkeletonTemplate<Props>(
             {resource.name}
           </Text>
         </div>
-        {variant === 'card' && (
-          <Icon name='x' size='18' weight='bold' className='text-primary' />
-        )}
       </ListItem>
     )
   }

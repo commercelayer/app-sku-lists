@@ -3,8 +3,10 @@ import {
   Dropdown,
   DropdownItem,
   EmptyState,
+  InputReadonly,
   PageLayout,
   ResourceList,
+  Section,
   SkeletonTemplate,
   Spacer,
   goBack,
@@ -98,19 +100,29 @@ export const SkuListDetails = (
     >
       <SkeletonTemplate isLoading={isLoading}>
         <Spacer top='12' bottom='4'>
-          <ResourceList
-            type='sku_list_items'
-            title='Items'
-            query={{
-              filters: { sku_list_id_eq: skuListId },
-              include: ['sku'],
-              sort: {
-                created_at: 'desc'
-              }
-            }}
-            emptyState={<></>}
-            ItemTemplate={ListItemSkuListItem}
-          />
+          <Section title='Items'>
+            {skuList.manual === true ? (
+              <ResourceList
+                type='sku_list_items'
+                query={{
+                  filters: { sku_list_id_eq: skuListId },
+                  include: ['sku'],
+                  sort: {
+                    created_at: 'desc'
+                  }
+                }}
+                emptyState={<></>}
+                ItemTemplate={ListItemSkuListItem}
+              />
+            ) : (
+              <InputReadonly
+                value={skuList.sku_code_regex ?? ''}
+                hint={{
+                  text: 'Matching SKU codes are automatically included to this list.'
+                }}
+              />
+            )}
+          </Section>
         </Spacer>
       </SkeletonTemplate>
       {canUser('destroy', 'sku_lists') && (

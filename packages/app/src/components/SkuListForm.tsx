@@ -8,8 +8,7 @@ import {
   HookedValidationApiError,
   HookedValidationError,
   Section,
-  Spacer,
-  Text
+  Spacer
 } from '@commercelayer/app-elements'
 import type { SkuList, SkuListItem } from '@commercelayer/sdk'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -21,12 +20,9 @@ import { ListItemSkuListItem } from './ListItemSkuListItem'
 const skuListFormSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(1),
-  items: z.array(
-    z.object({
-      id: z.string().min(1),
-      quantity: z.string().min(1)
-    })
-  )
+  manual: z.boolean().default(true),
+  items: z.array(z.custom<SkuList>()).optional(),
+  sku_code_regex: z.string().optional()
 })
 
 export type SkuListFormValues = z.infer<typeof skuListFormSchema>
@@ -49,7 +45,7 @@ export function SkuListForm({
   apiError,
   isSubmitting
 }: Props): JSX.Element {
-  const skuListItemFormMethods = useForm<SkuListFormValues>({
+  const skuListFormMethods = useForm<SkuListFormValues>({
     defaultValues,
     resolver: zodResolver(skuListFormSchema)
   })
@@ -75,12 +71,14 @@ export function SkuListForm({
     }
   }, [resource])
 
+  console.log(skuListFormMethods.watch('manual'));
+
   return (
     <>
       <HookedForm
-        {...skuListItemFormMethods}
+        {...skuListFormMethods}
         onSubmit={(formValues) => {
-          onSubmit(formValues, skuListItemFormMethods.setError)
+          onSubmit(formValues, skuListFormMethods.setError)
         }}
       >
         <Section>
@@ -93,25 +91,35 @@ export function SkuListForm({
             />
           </Spacer>
           <Spacer top='6' bottom='4'>
-            <Text weight='semibold'>SKUs</Text>
-            {selectedItems.map((item, idx) => (
-              <Spacer top='2' key={idx}>
-                <ListItemSkuListItem
-                  resource={item}
-                  variant='card'
-                  onQuantityChange={(resource, quantity) => {
-                    const updatedSelectedItems: SkuListItem[] = []
-                    selectedItems.forEach((item) => {
-                      if (item.id === resource.id) {
-                        item.quantity = quantity
-                      }
-                      updatedSelectedItems.push(item)
-                    })
-                    setSelectedItems(updatedSelectedItems)
-                  }}
-                />
-              </Spacer>
-            ))}
+            <>
+              {selectedItems.map((item, idx) => (
+                <Spacer top='2' key={idx}>
+                  <ListItemSkuListItem
+                    resource={item}
+                    variant='card'
+                    onQuantityChange={(resource, quantity) => {
+                      const updatedSelectedItems: SkuListItem[] = []
+                      selectedItems.forEach((item) => {
+                        if (item.id === resource.id) {
+                          item.quantity = quantity
+                        }
+                        updatedSelectedItems.push(item)
+                      })
+                      setSelectedItems(updatedSelectedItems)
+                    }}
+                    onRemoveClick={(resource) => {
+                      const updatedSelectedItems: SkuListItem[] = []
+                      selectedItems.forEach((item) => {
+                        if (item.id !== resource.id) {
+                          updatedSelectedItems.push(item)
+                        }
+                      })
+                      setSelectedItems(updatedSelectedItems)
+                    }}
+                  />
+                </Spacer>
+              ))}
+            </>
             <Spacer top='2'>
               <ButtonCard
                 iconLabel='Add item'
@@ -123,7 +131,7 @@ export function SkuListForm({
               />
             </Spacer>
             <Spacer top='2'>
-              <HookedValidationError name='item' />
+              <HookedValidationError name='items' />
             </Spacer>
             <AddItemOverlay
               onConfirm={(selectedSku) => {
@@ -131,7 +139,6 @@ export function SkuListForm({
                 newSkuListItem.quantity = 1
                 newSkuListItem.sku = selectedSku
                 newSkuListItem.sku_code = selectedSku.code
-                // delete (newSkuListItem as any).id
                 setSelectedItems([...selectedItems, newSkuListItem])
               }}
             />

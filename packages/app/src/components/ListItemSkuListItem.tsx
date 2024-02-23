@@ -14,6 +14,7 @@ interface Props {
   resource?: SkuListItem
   variant?: ListItemProps['variant']
   onQuantityChange?: (resource: SkuListItem, quantity: number) => void
+  onRemoveClick?: (resource: SkuListItem) => void
   isLoading?: boolean
   delayMs?: number
 }
@@ -22,7 +23,8 @@ export const ListItemSkuListItem = withSkeletonTemplate<Props>(
   ({
     resource = makeSkuListItem(),
     variant = 'list',
-    onQuantityChange
+    onQuantityChange,
+    onRemoveClick
   }): JSX.Element | null => {
     return (
       <ListItem
@@ -60,7 +62,13 @@ export const ListItemSkuListItem = withSkeletonTemplate<Props>(
                 }
               }}
             />
-            <button>
+            <button
+              onClick={() => {
+                if (onRemoveClick != null) {
+                  onRemoveClick(resource)
+                }
+              }}
+            >
               <Icon name='x' size='18' weight='bold' className='text-primary' />
             </button>
           </div>

@@ -138,12 +138,14 @@ export const SkuListDetails = (
                 ItemTemplate={ListItemSkuListItem}
               />
             ) : (
-              <InputReadonly
-                value={skuList.sku_code_regex ?? ''}
-                hint={{
-                  text: 'Matching SKU codes are automatically included to this list.'
-                }}
-              />
+              <Spacer top='6'>
+                <InputReadonly
+                  value={skuList.sku_code_regex ?? ''}
+                  hint={{
+                    text: 'Matching SKU codes are automatically included to this list.'
+                  }}
+                />
+              </Spacer>
             )}
           </Section>
         </Spacer>

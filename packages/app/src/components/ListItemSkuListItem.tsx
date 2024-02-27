@@ -1,31 +1,20 @@
 import { makeSkuListItem } from '#mocks'
 import {
   Avatar,
-  Icon,
-  InputSpinner,
   ListItem,
   Text,
-  withSkeletonTemplate,
-  type ListItemProps
+  withSkeletonTemplate
 } from '@commercelayer/app-elements'
 import type { SkuListItem } from '@commercelayer/sdk'
 
 interface Props {
   resource?: SkuListItem
-  variant?: ListItemProps['variant']
-  onQuantityChange?: (resource: SkuListItem, quantity: number) => void
-  onRemoveClick?: (resource: SkuListItem) => void
   isLoading?: boolean
   delayMs?: number
 }
 
 export const ListItemSkuListItem = withSkeletonTemplate<Props>(
-  ({
-    resource = makeSkuListItem(),
-    variant = 'list',
-    onQuantityChange,
-    onRemoveClick
-  }): JSX.Element | null => {
+  ({ resource = makeSkuListItem() }): JSX.Element | null => {
     return (
       <ListItem
         tag='div'
@@ -35,8 +24,7 @@ export const ListItemSkuListItem = withSkeletonTemplate<Props>(
             src={resource.sku?.image_url as `https://${string}`}
           />
         }
-        variant={variant}
-        alignItems={variant === 'list' ? 'bottom' : 'center'}
+        alignItems='bottom'
         className='bg-white'
       >
         <div>
@@ -47,32 +35,7 @@ export const ListItemSkuListItem = withSkeletonTemplate<Props>(
             {resource.sku?.name}
           </Text>
         </div>
-        {variant === 'list' && (
-          <Text weight='semibold'>x {resource.quantity}</Text>
-        )}
-        {variant === 'card' && (
-          <div className='flex items-center gap-4'>
-            <InputSpinner
-              defaultValue={resource.quantity ?? 1}
-              min={1}
-              disableKeyboard
-              onChange={(newQuantity) => {
-                if (onQuantityChange != null) {
-                  onQuantityChange(resource, newQuantity)
-                }
-              }}
-            />
-            <button
-              onClick={() => {
-                if (onRemoveClick != null) {
-                  onRemoveClick(resource)
-                }
-              }}
-            >
-              <Icon name='x' size='18' weight='bold' className='text-primary' />
-            </button>
-          </div>
-        )}
+        <Text weight='semibold'>x {resource.quantity}</Text>
       </ListItem>
     )
   }

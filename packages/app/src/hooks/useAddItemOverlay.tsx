@@ -9,7 +9,7 @@ import {
 import type { FiltersInstructions } from '@commercelayer/app-elements/dist/ui/resources/useResourceFilters/types'
 import type { Sku } from '@commercelayer/sdk'
 import { useState } from 'react'
-import { navigate, useSearch } from 'wouter/use-location'
+import { navigate, useSearch } from 'wouter/use-browser-location'
 
 interface OverlayHook {
   show: (excludedIds?: string) => void

@@ -24,14 +24,14 @@ importers:
   packages/app:
     dependencies:
       '@commercelayer/app-elements':
-        specifier: 1.14.6
-        version: 1.14.6(@commercelayer/sdk@5.31.1)(query-string@8.2.0)(react-dom@18.2.0)(react-gtm-module@2.0.11)(react-hook-form@7.49.3)(react@18.2.0)(wouter@2.12.1)
+        specifier: 1.15.1
+        version: 1.15.1(@commercelayer/sdk@5.32.0)(query-string@8.2.0)(react-dom@18.2.0)(react-gtm-module@2.0.11)(react-hook-form@7.50.1)(react@18.2.0)(wouter@3.0.1)
       '@commercelayer/sdk':
-        specifier: 5.31.1
-        version: 5.31.1
+        specifier: 5.32.0
+        version: 5.32.0
       '@hookform/resolvers':
         specifier: ^3.3.4
-        version: 3.3.4(react-hook-form@7.49.3)
+        version: 3.3.4(react-hook-form@7.50.1)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -42,17 +42,17 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       react-hook-form:
-        specifier: 7.49.3
-        version: 7.49.3(react@18.2.0)
+        specifier: ^7.50.1
+        version: 7.50.1(react@18.2.0)
       swr:
         specifier: ^2.2.4
         version: 2.2.5(react@18.2.0)
       type-fest:
-        specifier: ^4.9.0
+        specifier: ^4.10.2
         version: 4.10.2
       wouter:
-        specifier: ^2.12.1
-        version: 2.12.1(react@18.2.0)
+        specifier: ^3.0.0
+        version: 3.0.1(react@18.2.0)
       zod:
         specifier: ^3.22.4
         version: 3.22.4
@@ -66,6 +66,9 @@ importers:
       '@types/lodash':
         specifier: ^4.14.202
         version: 4.14.202
+      '@types/node':
+        specifier: 20.11.16
+        version: 20.11.16
       '@types/react':
         specifier: ^18.2.48
         version: 18.2.56
@@ -86,13 +89,13 @@ importers:
         version: 5.3.3
       vite:
         specifier: ^5.0.12
-        version: 5.1.3
+        version: 5.1.3(@types/node@20.11.16)
       vite-tsconfig-paths:
         specifier: ^4.3.1
         version: 4.3.1(typescript@5.3.3)(vite@5.1.3)
       vitest:
         specifier: ^1.2.1
-        version: 1.3.0(jsdom@24.0.0)
+        version: 1.3.0(@types/node@20.11.16)(jsdom@24.0.0)
 
 packages:
 
@@ -332,8 +335,8 @@ packages:
     dev: true
     optional: true
 
-  /@commercelayer/app-elements@1.14.6(@commercelayer/sdk@5.31.1)(query-string@8.2.0)(react-dom@18.2.0)(react-gtm-module@2.0.11)(react-hook-form@7.49.3)(react@18.2.0)(wouter@2.12.1):
-    resolution: {integrity: sha512-ESNnL6LuZVENEa58buYgabBXwHQKb57Qv/jtMdl2CxPLWMF/jNfZdHqjpqyKSKBKHQyftwAc43Yc/9ytnqLQjQ==}
+  /@commercelayer/app-elements@1.15.1(@commercelayer/sdk@5.32.0)(query-string@8.2.0)(react-dom@18.2.0)(react-gtm-module@2.0.11)(react-hook-form@7.50.1)(react@18.2.0)(wouter@3.0.1):
+    resolution: {integrity: sha512-nWIPTU2l7GWl5sRpviKSpobEiiM6LoiClk9neAXbqXm9UJ2AfDzeWZt9wRpRyWbd5LftrZkhK5FN+jRAsFi9sQ==}
     engines: {node: '>=18', pnpm: '>=7'}
     peerDependencies:
       '@commercelayer/sdk': ^5.x
@@ -344,7 +347,7 @@ packages:
       react-hook-form: ^7.50.x
       wouter: ^3.x
     dependencies:
-      '@commercelayer/sdk': 5.31.1
+      '@commercelayer/sdk': 5.32.0
       '@types/lodash': 4.14.202
       '@types/react': 18.2.56
       '@types/react-datepicker': 6.0.1(react-dom@18.2.0)(react@18.2.0)
@@ -354,17 +357,17 @@ packages:
       lodash: 4.17.21
       query-string: 8.2.0
       react: 18.2.0
-      react-currency-input-field: 3.7.0(react@18.2.0)
+      react-currency-input-field: 3.8.0(react@18.2.0)
       react-datepicker: 6.1.0(react-dom@18.2.0)(react@18.2.0)
       react-dom: 18.2.0(react@18.2.0)
       react-gtm-module: 2.0.11
-      react-hook-form: 7.49.3(react@18.2.0)
+      react-hook-form: 7.50.1(react@18.2.0)
       react-select: 5.8.0(@types/react@18.2.56)(react-dom@18.2.0)(react@18.2.0)
       react-tooltip: 5.26.3(react-dom@18.2.0)(react@18.2.0)
       swr: 2.2.5(react@18.2.0)
       ts-invariant: 0.10.3
       type-fest: 4.10.2
-      wouter: 2.12.1(react@18.2.0)
+      wouter: 3.0.1(react@18.2.0)
       zod: 3.22.4
     dev: false
 
@@ -414,11 +417,11 @@ packages:
       - supports-color
     dev: true
 
-  /@commercelayer/sdk@5.31.1:
-    resolution: {integrity: sha512-V40RE6AhjKP7g4Xg68A5hn+P7pDoVo0oSmDmCuPn3PsN/Hot8Nxs8ougRyOox/WI57HbdFIP4qLh3GYufoienA==}
+  /@commercelayer/sdk@5.32.0:
+    resolution: {integrity: sha512-XZXmHN3fhyhOYMqhVEHSCo5LF6jD8QbPnDP/yFfusXsi5WH1Pq5hxrLYrjJmvE0FkbIxdfZUvmawzCfaJh05rg==}
     engines: {node: '>=16 || ^14.17'}
     dependencies:
-      axios: 1.6.5
+      axios: 1.6.7
     transitivePeerDependencies:
       - debug
     dev: false
@@ -801,12 +804,12 @@ packages:
     resolution: {integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==}
     dev: true
 
-  /@hookform/resolvers@3.3.4(react-hook-form@7.49.3):
+  /@hookform/resolvers@3.3.4(react-hook-form@7.50.1):
     resolution: {integrity: sha512-o5cgpGOuJYrd+iMKvkttOclgwRW86EsWJZZRC23prf0uU2i48Htq4PuT73AVb9ionFyZrwYEITuOFGF+BydEtQ==}
     peerDependencies:
       react-hook-form: ^7.0.0
     dependencies:
-      react-hook-form: 7.49.3(react@18.2.0)
+      react-hook-form: 7.50.1(react@18.2.0)
     dev: false
 
   /@humanwhocodes/config-array@0.11.14:
@@ -1621,6 +1624,12 @@ packages:
     resolution: {integrity: sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==}
     dev: true
 
+  /@types/node@20.11.16:
+    resolution: {integrity: sha512-gKb0enTmRCzXSSUJDq6/sPcqrfCv2mkkG6Jt/clpn5eiCbKTY+SgZUxo+p8ZKMof5dCp9vHQUAB7wOUTod22wQ==}
+    dependencies:
+      undici-types: 5.26.5
+    dev: true
+
   /@types/normalize-package-data@2.4.4:
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
     dev: true
@@ -1815,7 +1824,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.23.3(@babel/core@7.23.9)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.0
-      vite: 5.1.3
+      vite: 5.1.3(@types/node@20.11.16)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2172,16 +2181,6 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /axios@1.6.5:
-    resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
-    dependencies:
-      follow-redirects: 1.15.5
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   /axios@1.6.7:
     resolution: {integrity: sha512-/hDJGff6/c7u0hDkvkGxR/oy6CbCs8ziCsC7SqmhjfozqiJGc8Z11wrv9z9lYfY4K8l+H9TpjcMDX0xOZmx+RA==}
     dependencies:
@@ -2190,7 +2189,6 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
-    dev: true
 
   /babel-plugin-macros@3.1.0:
     resolution: {integrity: sha512-Cg7TFGpIr01vOQNODXOOaGz2NpCU5gl8x1qJFbb6hbZxR7XrcE2vtbAsTAbJ7/xwJtUuJEw8K8Zr/AE0LHlesg==}
@@ -5610,6 +5608,10 @@ packages:
       yallist: 4.0.0
     dev: true
 
+  /mitt@3.0.1:
+    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
+    dev: false
+
   /mkdirp@1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
@@ -6606,8 +6608,8 @@ packages:
       strip-json-comments: 2.0.1
     dev: true
 
-  /react-currency-input-field@3.7.0(react@18.2.0):
-    resolution: {integrity: sha512-FW/VHnwuzu6BgODDRdvm2kLaigsn3s/vLUQA1RbpxpTx8TrtcFTdp5NzX17t6Hh6SHqlMEKrhCYiOMXFDVI/QA==}
+  /react-currency-input-field@3.8.0(react@18.2.0):
+    resolution: {integrity: sha512-DKSIjacrvgUDOpuB16b+OVDvp5pbCt+s+RHJgpRZCHNhzg1yBpRUoy4fbnXpeOj0kdbwf5BaXCr2mAtxEujfhg==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18.0.0
     dependencies:
@@ -6642,9 +6644,9 @@ packages:
     resolution: {integrity: sha512-8gyj4TTxeP7eEyc2QKawEuQoAZdjKvMY4pgWfycGmqGByhs17fR+zEBs0JUDq4US/l+vbTl+6zvUIx27iDo/Vw==}
     dev: false
 
-  /react-hook-form@7.49.3(react@18.2.0):
-    resolution: {integrity: sha512-foD6r3juidAT1cOZzpmD/gOKt7fRsDhXXZ0y28+Al1CHgX+AY1qIN9VSIIItXRq1dN68QrRwl1ORFlwjBaAqeQ==}
-    engines: {node: '>=18', pnpm: '8'}
+  /react-hook-form@7.50.1(react@18.2.0):
+    resolution: {integrity: sha512-3PCY82oE0WgeOgUtIr3nYNNtNvqtJ7BZjsbxh6TnYNbXButaD5WpjOmTjdxZfheuHKR68qfeFnEDVYoSSFPMTQ==}
+    engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
     dependencies:
@@ -6850,6 +6852,11 @@ packages:
       es-errors: 1.3.0
       set-function-name: 2.0.1
     dev: true
+
+  /regexparam@3.0.0:
+    resolution: {integrity: sha512-RSYAtP31mvYLkAHrOlh25pCNQ5hWnT106VukGaaFfuJrZFkGRX5GhUAdPqpSDXxOhA2c4akmRuplv1mRqnBn6Q==}
+    engines: {node: '>=8'}
+    dev: false
 
   /registry-auth-token@5.0.2:
     resolution: {integrity: sha512-o/3ikDxtXaA59BmZuZrJZDJv8NMDGSj+6j6XaeBmHw8eY1i1qd9+6H+LjVvQXx3HN6aRCGa1cUdJ9RaJZUugnQ==}
@@ -7865,6 +7872,10 @@ packages:
       which-boxed-primitive: 1.0.2
     dev: true
 
+  /undici-types@5.26.5:
+    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+    dev: true
+
   /unique-filename@2.0.1:
     resolution: {integrity: sha512-ODWHtkkdx3IAR+veKxFV+VBkUMcN+FaqzUUd7IZzt+0zhDZFPFxhlqwPF3YQvMHx1TD0tdgYl+kuPnJ8E6ql7A==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
@@ -8022,7 +8033,7 @@ packages:
       builtins: 5.0.1
     dev: true
 
-  /vite-node@1.3.0:
+  /vite-node@1.3.0(@types/node@20.11.16):
     resolution: {integrity: sha512-D/oiDVBw75XMnjAXne/4feCkCEwcbr2SU1bjAhCcfI5Bq3VoOHji8/wCPAfUkDIeohJ5nSZ39fNxM3dNZ6OBOA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -8031,7 +8042,7 @@ packages:
       debug: 4.3.4
       pathe: 1.1.2
       picocolors: 1.0.0
-      vite: 5.1.3
+      vite: 5.1.3(@types/node@20.11.16)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -8054,13 +8065,13 @@ packages:
       debug: 4.3.4
       globrex: 0.1.2
       tsconfck: 3.0.2(typescript@5.3.3)
-      vite: 5.1.3
+      vite: 5.1.3(@types/node@20.11.16)
     transitivePeerDependencies:
       - supports-color
       - typescript
     dev: true
 
-  /vite@5.1.3:
+  /vite@5.1.3(@types/node@20.11.16):
     resolution: {integrity: sha512-UfmUD36DKkqhi/F75RrxvPpry+9+tTkrXfMNZD+SboZqBCMsxKtO52XeGzzuh7ioz+Eo/SYDBbdb0Z7vgcDJew==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -8088,6 +8099,7 @@ packages:
       terser:
         optional: true
     dependencies:
+      '@types/node': 20.11.16
       esbuild: 0.19.12
       postcss: 8.4.35
       rollup: 4.12.0
@@ -8095,7 +8107,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitest@1.3.0(jsdom@24.0.0):
+  /vitest@1.3.0(@types/node@20.11.16)(jsdom@24.0.0):
     resolution: {integrity: sha512-V9qb276J1jjSx9xb75T2VoYXdO1UKi+qfflY7V7w93jzX7oA/+RtYE6TcifxksxsZvygSSMwu2Uw6di7yqDMwg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -8120,6 +8132,7 @@ packages:
       jsdom:
         optional: true
     dependencies:
+      '@types/node': 20.11.16
       '@vitest/expect': 1.3.0
       '@vitest/runner': 1.3.0
       '@vitest/snapshot': 1.3.0
@@ -8138,8 +8151,8 @@ packages:
       strip-literal: 2.0.0
       tinybench: 2.6.0
       tinypool: 0.8.2
-      vite: 5.1.3
-      vite-node: 1.3.0
+      vite: 5.1.3(@types/node@20.11.16)
+      vite-node: 1.3.0(@types/node@20.11.16)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
@@ -8290,12 +8303,14 @@ packages:
     resolution: {integrity: sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==}
     dev: true
 
-  /wouter@2.12.1(react@18.2.0):
-    resolution: {integrity: sha512-G7a6JMSLSNcu6o8gdOfIzqxuo8Qx1qs+9rpVnlurH69angsSFPZP5gESNuVNeJct/MGpQg191pDo4HUjTx7IIQ==}
+  /wouter@3.0.1(react@18.2.0):
+    resolution: {integrity: sha512-Wv2FSH56LchrKKoiGXn2F8ZA9gLgKiI3JVtI64DhZXXOtbgV/pFKSyMZ5ds94LoKxkGAyNEKK0LAnTMR0LMp3g==}
     peerDependencies:
       react: '>=16.8.0'
     dependencies:
+      mitt: 3.0.1
       react: 18.2.0
+      regexparam: 3.0.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 

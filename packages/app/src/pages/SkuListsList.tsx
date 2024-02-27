@@ -9,13 +9,12 @@ import {
   useTokenProvider
 } from '@commercelayer/app-elements'
 import { Link } from 'wouter'
-import { navigate, useSearch } from 'wouter/use-location'
+import { navigate, useSearch } from 'wouter/use-browser-location'
 
 export function SkuListsList(): JSX.Element {
   const {
     canUser,
-    dashboardUrl,
-    settings: { mode }
+    settings: { mode, dashboardUrl }
   } = useTokenProvider()
 
   const queryString = useSearch()

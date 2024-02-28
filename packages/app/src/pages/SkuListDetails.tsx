@@ -6,7 +6,6 @@ import {
   EmptyState,
   InputReadonly,
   PageLayout,
-  ResourceList,
   Section,
   SkeletonTemplate,
   Spacer,
@@ -125,18 +124,13 @@ export const SkuListDetails = (
         <Spacer top='12' bottom='4'>
           <Section title='Items'>
             {skuList.manual === true ? (
-              <ResourceList
-                type='sku_list_items'
-                query={{
-                  filters: { sku_list_id_eq: skuListId },
-                  include: ['sku'],
-                  sort: {
-                    created_at: 'desc'
-                  }
-                }}
-                emptyState={<></>}
-                ItemTemplate={ListItemSkuListItem}
-              />
+              <>
+                {skuList.sku_list_items != null
+                  ? skuList.sku_list_items.map((item, idx) => (
+                      <ListItemSkuListItem key={idx} resource={item} />
+                    ))
+                  : null}
+              </>
             ) : (
               <Spacer top='6'>
                 <InputReadonly

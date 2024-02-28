@@ -4,17 +4,12 @@ import {
   adaptFormValuesToSkuListUpdate
 } from '#components/SkuListForm/utils'
 import { useCoreSdkProvider } from '@commercelayer/app-elements'
-import type { SkuList } from '@commercelayer/sdk'
 import { useCallback, useState } from 'react'
-import type { KeyedMutator } from 'swr'
 
 interface UpdateSkuListHook {
   isUpdatingSkuList: boolean
   updateSkuListError?: any
-  updateSkuList: (
-    formValues: SkuListFormValues,
-    mutateSkuList: KeyedMutator<SkuList>
-  ) => Promise<void>
+  updateSkuList: (formValues: SkuListFormValues) => Promise<void>
 }
 
 export function useUpdateSkuList(): UpdateSkuListHook {
@@ -25,7 +20,7 @@ export function useUpdateSkuList(): UpdateSkuListHook {
     useState<UpdateSkuListHook['updateSkuListError']>()
 
   const updateSkuList = useCallback<UpdateSkuListHook['updateSkuList']>(
-    async (formValues, mutateSkuList) => {
+    async (formValues) => {
       setIsUpdatingSkuList(true)
       setUpdateSkuListError(undefined)
 
@@ -35,7 +30,6 @@ export function useUpdateSkuList(): UpdateSkuListHook {
           include: ['sku_list_items', 'sku_list_items.sku']
         })
         if (formValues.manual && updatedSkuList.id != null) {
-          void mutateSkuList({ ...updatedSkuList })
           // Create or update items
           await Promise.all(
             formValues.items.map(async (item) => {

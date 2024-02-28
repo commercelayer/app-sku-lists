@@ -84,7 +84,8 @@ export function SkuListEdit(): JSX.Element {
             apiError={updateSkuListError}
             isSubmitting={isUpdatingSkuList}
             onSubmit={(formValues) => {
-              void updateSkuList(formValues, mutateSkuList).then(() => {
+              void updateSkuList(formValues).then(() => {
+                void mutateSkuList()
                 setLocation(goBackUrl)
               })
             }}

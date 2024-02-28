@@ -19,7 +19,7 @@ export function SkuListsList(): JSX.Element {
 
   const queryString = useSearch()
 
-  const { SearchWithNav, FilteredList } = useResourceFilters({
+  const { SearchWithNav, FilteredList, hasActiveFilter } = useResourceFilters({
     instructions
   })
 
@@ -64,16 +64,34 @@ export function SkuListsList(): JSX.Element {
         }}
         ItemTemplate={ListItemSkuList}
         emptyState={
-          <EmptyState
-            title='No SKU lists yet!'
-            action={
-              canUser('create', 'sku_lists') && (
-                <Link href={appRoutes.new.makePath({})}>
-                  <Button variant='primary'>Add a SKU list</Button>
-                </Link>
-              )
-            }
-          />
+          hasActiveFilter ? (
+            <EmptyState
+              title='No SKU lists found!'
+              description={
+                <div>
+                  <p>We didn't find any SKU lists matching the search.</p>
+                </div>
+              }
+              action={
+                canUser('create', 'sku_lists') && (
+                  <Link href={appRoutes.new.makePath({})}>
+                    <Button variant='primary'>Add a SKU list</Button>
+                  </Link>
+                )
+              }
+            />
+          ) : (
+            <EmptyState
+              title='No SKU lists yet!'
+              action={
+                canUser('create', 'sku_lists') && (
+                  <Link href={appRoutes.new.makePath({})}>
+                    <Button variant='primary'>Add a SKU list</Button>
+                  </Link>
+                )
+              }
+            />
+          )
         }
         actionButton={
           canUser('create', 'sku_lists') ? (

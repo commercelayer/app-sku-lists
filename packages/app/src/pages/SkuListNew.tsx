@@ -1,24 +1,21 @@
-import { SkuListForm, type SkuListFormValues } from '#components/SkuListForm'
+import { SkuListForm } from '#components/SkuListForm'
 import { appRoutes } from '#data/routes'
+import { useCreateSkuList } from '#hooks/useCreateSkuList'
 import {
   Button,
   EmptyState,
   PageLayout,
   Spacer,
-  useCoreSdkProvider,
   useTokenProvider
 } from '@commercelayer/app-elements'
-import { type SkuListCreate } from '@commercelayer/sdk'
-import { useState } from 'react'
 import { Link, useLocation } from 'wouter'
 
 export function SkuListNew(): JSX.Element {
   const { canUser } = useTokenProvider()
-  const { sdkClient } = useCoreSdkProvider()
   const [, setLocation] = useLocation()
 
-  const [apiError, setApiError] = useState<any>()
-  const [isSaving, setIsSaving] = useState(false)
+  const { createSkuListError, createSkuList, isCreatingSkuList } =
+    useCreateSkuList()
 
   const goBackUrl = appRoutes.list.makePath({})
 
@@ -64,31 +61,16 @@ export function SkuListNew(): JSX.Element {
     >
       <Spacer bottom='14'>
         <SkuListForm
-          apiError={apiError}
-          isSubmitting={isSaving}
+          defaultValues={{ manual: true }}
+          apiError={createSkuListError}
+          isSubmitting={isCreatingSkuList}
           onSubmit={(formValues) => {
-            setIsSaving(true)
-            const skuList = adaptFormValuesToSkuList(formValues)
-            void sdkClient.sku_lists
-              .create(skuList)
-              .then(() => {
-                setLocation(goBackUrl)
-              })
-              .catch((error) => {
-                setApiError(error)
-                setIsSaving(false)
-              })
+            void createSkuList(formValues).then(() => {
+              setLocation(goBackUrl)
+            })
           }}
         />
       </Spacer>
     </PageLayout>
   )
-}
-
-function adaptFormValuesToSkuList(
-  formValues: SkuListFormValues
-): SkuListCreate {
-  return {
-    name: formValues.name
-  }
 }

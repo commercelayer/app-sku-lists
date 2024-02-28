@@ -1,30 +1,28 @@
-import { SkuListForm, type SkuListFormValues } from '#components/SkuListForm'
+import { SkuListForm } from '#components/SkuListForm'
 import { appRoutes } from '#data/routes'
 import { useSkuListDetails } from '#hooks/useSkuListDetails'
+import { useUpdateSkuList } from '#hooks/useUpdateSkuList'
 import {
   Button,
   EmptyState,
   PageLayout,
   SkeletonTemplate,
   Spacer,
-  useCoreSdkProvider,
   useTokenProvider
 } from '@commercelayer/app-elements'
-import { type SkuListUpdate } from '@commercelayer/sdk'
-import { useState } from 'react'
 import { Link, useLocation, useRoute } from 'wouter'
 
 export function SkuListEdit(): JSX.Element {
   const { canUser } = useTokenProvider()
-  const { sdkClient } = useCoreSdkProvider()
   const [, setLocation] = useLocation()
-  const [apiError, setApiError] = useState<any>()
-  const [isSaving, setIsSaving] = useState(false)
 
   const [, params] = useRoute<{ skuListId: string }>(appRoutes.edit.path)
   const skuListId = params?.skuListId ?? ''
 
   const { skuList, isLoading, mutateSkuList } = useSkuListDetails(skuListId)
+
+  const { updateSkuListError, updateSkuList, isUpdatingSkuList } =
+    useUpdateSkuList()
 
   const goBackUrl = appRoutes.details.makePath({ skuListId })
 
@@ -76,36 +74,23 @@ export function SkuListEdit(): JSX.Element {
             resource={skuList}
             defaultValues={{
               id: skuList.id,
-              name: skuList.name
+              name: skuList.name,
+              manual: Boolean(skuList.manual),
+              sku_code_regex:
+                skuList.manual === false
+                  ? skuList.sku_code_regex ?? ''
+                  : undefined
             }}
-            apiError={apiError}
-            isSubmitting={isSaving}
+            apiError={updateSkuListError}
+            isSubmitting={isUpdatingSkuList}
             onSubmit={(formValues) => {
-              setIsSaving(true)
-              const skuList = adaptFormValuesToSkuList(formValues)
-              void sdkClient.sku_lists
-                .update(skuList)
-                .then((updatedSkuList) => {
-                  setLocation(goBackUrl)
-                  void mutateSkuList({ ...updatedSkuList })
-                })
-                .catch((error) => {
-                  setApiError(error)
-                  setIsSaving(false)
-                })
+              void updateSkuList(formValues, mutateSkuList).then(() => {
+                setLocation(goBackUrl)
+              })
             }}
           />
         ) : null}
       </Spacer>
     </PageLayout>
   )
-}
-
-function adaptFormValuesToSkuList(
-  formValues: SkuListFormValues
-): SkuListUpdate {
-  return {
-    id: formValues.id ?? '',
-    name: formValues.name
-  }
 }

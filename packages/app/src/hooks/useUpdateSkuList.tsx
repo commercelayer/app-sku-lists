@@ -44,7 +44,6 @@ export function useUpdateSkuList(): UpdateSkuListHook {
                   id: itemNeedsUpdate.id,
                   quantity: item.quantity
                 })
-                console.log('updated sku list item', item)
               }
               const itemIsAlreadyExisting = updatedSkuList.sku_list_items?.find(
                 (skuListItem) => skuListItem.sku_code === item.sku_code
@@ -57,7 +56,6 @@ export function useUpdateSkuList(): UpdateSkuListHook {
                   sdkClient
                 )
                 await sdkClient.sku_list_items.create(skuListItem)
-                console.log('created sku list item', skuListItem)
               }
             })
           )
@@ -70,7 +68,6 @@ export function useUpdateSkuList(): UpdateSkuListHook {
                 )
                 if (itemIsInNewListItems == null) {
                   await sdkClient.sku_list_items.delete(oldItem.id)
-                  console.log('deleted sku list item', oldItem.id)
                 }
               })
             )

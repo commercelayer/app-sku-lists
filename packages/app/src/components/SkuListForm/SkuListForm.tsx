@@ -63,14 +63,13 @@ export function SkuListForm({
     return watchedFormManual ? 0 : 1
   }, [watchedFormManual])
 
-  // const selectedItemsCodes = useMemo(() => {
-  //   const excludedCodes = [] as string[]
-  //   watchedFormItems?.forEach((sku) => {
-  //     excludedCodes.push(sku.sku_code)
-  //   })
-  //   return excludedCodes.join(',') ?? ''
-  // }, [watchedFormItems])
-  // console.log(selectedItemsCodes)
+  const selectedItemsCodes = useMemo(() => {
+    const excludedCodes = [] as string[]
+    watchedFormItems?.forEach((sku) => {
+      excludedCodes.push(sku.sku_code)
+    })
+    return excludedCodes
+  }, [watchedFormItems])
 
   useEffect(() => {
     if (resource != null) {
@@ -164,7 +163,7 @@ export function SkuListForm({
                     padding='4'
                     fullWidth
                     onClick={() => {
-                      showAddItemOverlay('')
+                      showAddItemOverlay(selectedItemsCodes)
                     }}
                   />
                 </Spacer>

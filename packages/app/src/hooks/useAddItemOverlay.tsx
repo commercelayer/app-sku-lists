@@ -12,36 +12,54 @@ import { useState } from 'react'
 import { navigate, useSearch } from 'wouter/use-browser-location'
 
 interface OverlayHook {
-  show: (excludedIds?: string) => void
+  show: (excludedCodes?: string[]) => void
   Overlay: React.FC<{ onConfirm: (resource: Sku) => void }>
 }
 
 export function useAddItemOverlay(): OverlayHook {
   const { Overlay: OverlayElement, open, close } = useOverlay()
-  const [excludedIds, setExcludedIds] = useState<string>('')
-
-  const instructions: FiltersInstructions = [
-    {
-      label: 'Search',
-      type: 'textSearch',
-      sdk: {
-        predicate: ['name', 'code'].join('_or_') + '_cont'
-      },
-      render: {
-        component: 'searchBar'
-      }
-    }
-  ]
+  const [excludedCodes, setExcludedCodes] = useState<string[]>([])
 
   return {
-    show: (excludedIds) => {
-      console.log(excludedIds)
-      if (excludedIds != null) {
-        setExcludedIds(excludedIds)
+    show: (excludedCodes) => {
+      if (excludedCodes != null) {
+        setExcludedCodes(excludedCodes)
       }
       open()
     },
     Overlay: ({ onConfirm }) => {
+      // filters: { code_not_in: excludedCodes }
+
+      const instructions: FiltersInstructions = [
+        {
+          label: 'Already selected items',
+          type: 'options',
+          sdk: {
+            predicate: 'code_not_in',
+            defaultOptions: excludedCodes
+          },
+          render: {
+            component: 'inputToggleButton',
+            props: {
+              mode: 'single',
+              options: excludedCodes.map((code) => {
+                return { value: code, label: code }
+              })
+            }
+          }
+        },
+        {
+          label: 'Search',
+          type: 'textSearch',
+          sdk: {
+            predicate: ['name', 'code'].join('_or_') + '_cont'
+          },
+          render: {
+            component: 'searchBar'
+          }
+        }
+      ]
+
       const queryString = useSearch()
       const { SearchWithNav, FilteredList, hasActiveFilter } =
         useResourceFilters({
@@ -89,9 +107,6 @@ export function useAddItemOverlay(): OverlayHook {
             <Card gap='none'>
               <FilteredList
                 type='skus'
-                query={{
-                  filters: { id_eq: excludedIds }
-                }}
                 ItemTemplate={(props) => (
                   <ListItemSku
                     onSelect={(resource) => {

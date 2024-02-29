@@ -125,8 +125,8 @@ export function SkuListForm({
               defaultTab={defaultTab}
             >
               <Tab name='Manual'>
-                {watchedFormItems?.map((item, idx) => (
-                  <Spacer top='2' key={idx}>
+                {watchedFormItems?.map((item) => (
+                  <Spacer top='2' key={item.sku_code}>
                     <ListItemCardSkuListItem
                       resource={item}
                       onQuantityChange={(resource, quantity) => {

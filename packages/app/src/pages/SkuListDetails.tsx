@@ -126,8 +126,11 @@ export const SkuListDetails = (
             {skuList.manual === true ? (
               <>
                 {skuList.sku_list_items != null
-                  ? skuList.sku_list_items.map((item, idx) => (
-                      <ListItemSkuListItem key={idx} resource={item} />
+                  ? skuList.sku_list_items.map((item) => (
+                      <ListItemSkuListItem
+                        key={item.sku_code}
+                        resource={item}
+                      />
                     ))
                   : null}
               </>

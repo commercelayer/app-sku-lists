@@ -200,7 +200,19 @@ export function SkuListForm({
                 <HookedInputTextArea
                   name='sku_code_regex'
                   hint={{
-                    text: 'Use regular expressions for matching SKU codes, such as "AT | BE".'
+                    text: (
+                      <span>
+                        Use{' '}
+                        <a
+                          href='https://regex101.com/'
+                          target='_blank'
+                          rel='noreferrer'
+                        >
+                          regular expressions
+                        </a>{' '}
+                        for matching SKU codes, such as "AT | BE".
+                      </span>
+                    )
                   }}
                 />
               </Tab>

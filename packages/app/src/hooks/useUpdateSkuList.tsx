@@ -29,27 +29,30 @@ export function useUpdateSkuList(): UpdateSkuListHook {
         const updatedSkuList = await sdkClient.sku_lists.update(skuList, {
           include: ['sku_list_items', 'sku_list_items.sku']
         })
+        // SKU list resource is updated. Now it's time to update related SKU list items.
         if (formValues.manual && updatedSkuList.id != null) {
           // Create or update items
           await Promise.all(
             formValues.items.map(async (item) => {
-              const itemNeedsUpdate = updatedSkuList.sku_list_items?.find(
+              const itemToUpdate = updatedSkuList.sku_list_items?.find(
                 (skuListItem) =>
                   skuListItem.sku_code === item.sku_code &&
                   skuListItem.quantity !== item.quantity
               )
-              // Item needs to be updated
-              if (itemNeedsUpdate != null) {
+              // Item needs to be updated. Item exists but quantity needs to be updated.
+              if (itemToUpdate != null) {
                 await sdkClient.sku_list_items.update({
-                  id: itemNeedsUpdate.id,
+                  id: itemToUpdate.id,
                   quantity: item.quantity
                 })
               }
-              const itemIsAlreadyExisting = updatedSkuList.sku_list_items?.find(
-                (skuListItem) => skuListItem.sku_code === item.sku_code
+              const isExistingItem = Boolean(
+                updatedSkuList.sku_list_items?.some(
+                  (skuListItem) => skuListItem.sku_code === item.sku_code
+                )
               )
-              // Item needs to be created
-              if (itemIsAlreadyExisting == null) {
+              // Item needs to be created.
+              if (!isExistingItem) {
                 const skuListItem = adaptFormListItemToSkuListItemCreate(
                   item,
                   updatedSkuList.id,
@@ -63,10 +66,12 @@ export function useUpdateSkuList(): UpdateSkuListHook {
           if (updatedSkuList.sku_list_items != null) {
             await Promise.all(
               updatedSkuList.sku_list_items?.map(async (oldItem) => {
-                const itemIsInNewListItems = formValues.items.find(
-                  (item) => item.sku_code === oldItem.sku_code
+                const itemIsInFormItems = Boolean(
+                  formValues.items.some(
+                    (item) => item.sku_code === oldItem.sku_code
+                  )
                 )
-                if (itemIsInNewListItems == null) {
+                if (!itemIsInFormItems) {
                   await sdkClient.sku_list_items.delete(oldItem.id)
                 }
               })

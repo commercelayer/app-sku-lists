@@ -65,8 +65,12 @@ export function SkuListNew(): JSX.Element {
           apiError={createSkuListError}
           isSubmitting={isCreatingSkuList}
           onSubmit={(formValues) => {
-            void createSkuList(formValues).then(() => {
-              setLocation(goBackUrl)
+            void createSkuList(formValues).then((createdSkuList) => {
+              if (createdSkuList != null) {
+                setLocation(
+                  appRoutes.details.makePath({ skuListId: createdSkuList.id })
+                )
+              }
             })
           }}
         />

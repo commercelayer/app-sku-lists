@@ -4,12 +4,13 @@ import {
   adaptFormValuesToSkuListCreate
 } from '#components/SkuListForm/utils'
 import { useCoreSdkProvider } from '@commercelayer/app-elements'
+import type { SkuList } from '@commercelayer/sdk'
 import { useCallback, useState } from 'react'
 
 interface CreateSkuListHook {
   isCreatingSkuList: boolean
   createSkuListError?: any
-  createSkuList: (formValues: SkuListFormValues) => Promise<void>
+  createSkuList: (formValues: SkuListFormValues) => Promise<SkuList | undefined>
 }
 
 export function useCreateSkuList(): CreateSkuListHook {
@@ -39,6 +40,7 @@ export function useCreateSkuList(): CreateSkuListHook {
             })
           )
         }
+        return createdSkuList
       } catch (err) {
         setCreateSkuListError(err)
       } finally {

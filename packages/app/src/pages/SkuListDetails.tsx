@@ -1,11 +1,11 @@
 import {
   Button,
   Dropdown,
+  DropdownDivider,
   DropdownItem,
   EmptyState,
   InputReadonly,
   PageLayout,
-  ResourceList,
   Section,
   SkeletonTemplate,
   Spacer,
@@ -67,6 +67,18 @@ export const SkuListDetails = (
 
   const pageTitle = skuList?.name
 
+  const contextMenuEdit = canUser('update', 'sku_lists') && (
+    <DropdownItem
+      label='Edit'
+      onClick={() => {
+        setLocation(appRoutes.edit.makePath({ skuListId }))
+      }}
+    />
+  )
+
+  const contextMenuDivider = canUser('update', 'sku_lists') &&
+    canUser('destroy', 'sku_lists') && <DropdownDivider />
+
   const contextMenuDelete = canUser('destroy', 'sku_lists') && (
     <DropdownItem
       label='Delete'
@@ -76,7 +88,17 @@ export const SkuListDetails = (
     />
   )
 
-  const contextMenu = <Dropdown dropdownItems={<>{contextMenuDelete}</>} />
+  const contextMenu = (
+    <Dropdown
+      dropdownItems={
+        <>
+          {contextMenuEdit}
+          {contextMenuDivider}
+          {contextMenuDelete}
+        </>
+      }
+    />
+  )
 
   return (
     <PageLayout
@@ -102,25 +124,25 @@ export const SkuListDetails = (
         <Spacer top='12' bottom='4'>
           <Section title='Items'>
             {skuList.manual === true ? (
-              <ResourceList
-                type='sku_list_items'
-                query={{
-                  filters: { sku_list_id_eq: skuListId },
-                  include: ['sku'],
-                  sort: {
-                    created_at: 'desc'
-                  }
-                }}
-                emptyState={<></>}
-                ItemTemplate={ListItemSkuListItem}
-              />
+              <>
+                {skuList.sku_list_items != null
+                  ? skuList.sku_list_items.map((item) => (
+                      <ListItemSkuListItem
+                        key={item.sku_code}
+                        resource={item}
+                      />
+                    ))
+                  : null}
+              </>
             ) : (
-              <InputReadonly
-                value={skuList.sku_code_regex ?? ''}
-                hint={{
-                  text: 'Matching SKU codes are automatically included to this list.'
-                }}
-              />
+              <Spacer top='6'>
+                <InputReadonly
+                  value={skuList.sku_code_regex ?? ''}
+                  hint={{
+                    text: 'Matching SKU codes are automatically included to this list.'
+                  }}
+                />
+              </Spacer>
             )}
           </Section>
         </Spacer>

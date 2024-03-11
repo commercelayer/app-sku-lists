@@ -25,6 +25,7 @@ export const ListItemSkuListItem = withSkeletonTemplate<Props>(
           />
         }
         alignItems='bottom'
+        className='bg-white'
       >
         <div>
           <Text tag='div' weight='medium' variant='info' size='small'>

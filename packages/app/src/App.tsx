@@ -1,5 +1,7 @@
 import { ErrorNotFound } from '#pages/ErrorNotFound'
 import { SkuListDetails } from '#pages/SkuListDetails'
+import { SkuListEdit } from '#pages/SkuListEdit'
+import { SkuListNew } from '#pages/SkuListNew'
 import { SkuListsList } from '#pages/SkuListsList'
 import {
   CoreSdkProvider,
@@ -46,6 +48,8 @@ export function App(): JSX.Element {
                   path={appRoutes.details.path}
                   component={SkuListDetails}
                 />
+                <Route path={appRoutes.edit.path} component={SkuListEdit} />
+                <Route path={appRoutes.new.path} component={SkuListNew} />
                 <Route>
                   <ErrorNotFound />
                 </Route>

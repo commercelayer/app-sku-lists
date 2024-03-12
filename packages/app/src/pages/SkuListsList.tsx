@@ -4,7 +4,7 @@ import { appRoutes } from '#data/routes'
 import {
   Button,
   EmptyState,
-  PageLayout,
+  HomePageLayout,
   useResourceFilters,
   useTokenProvider
 } from '@commercelayer/app-elements'
@@ -12,10 +12,7 @@ import { Link } from 'wouter'
 import { navigate, useSearch } from 'wouter/use-browser-location'
 
 export function SkuListsList(): JSX.Element {
-  const {
-    canUser,
-    settings: { mode, dashboardUrl }
-  } = useTokenProvider()
+  const { canUser } = useTokenProvider()
 
   const queryString = useSearch()
 
@@ -25,26 +22,14 @@ export function SkuListsList(): JSX.Element {
 
   if (!canUser('read', 'sku_lists')) {
     return (
-      <PageLayout title='SKU Lists' mode={mode}>
+      <HomePageLayout title='SKU Lists'>
         <EmptyState title='You are not authorized' />
-      </PageLayout>
+      </HomePageLayout>
     )
   }
 
   return (
-    <PageLayout
-      title='SKU Lists'
-      mode={mode}
-      gap='only-top'
-      navigationButton={{
-        onClick: () => {
-          window.location.href =
-            dashboardUrl != null ? `${dashboardUrl}/hub` : '/'
-        },
-        label: 'Hub',
-        icon: 'arrowLeft'
-      }}
-    >
+    <HomePageLayout title='SKU Lists'>
       <SearchWithNav
         queryString={queryString}
         onUpdate={(qs) => {
@@ -99,6 +84,6 @@ export function SkuListsList(): JSX.Element {
           ) : undefined
         }
       />
-    </PageLayout>
+    </HomePageLayout>
   )
 }

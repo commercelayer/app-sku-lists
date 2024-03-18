@@ -9,7 +9,7 @@ const formSkuListItemSchema: z.ZodType<FormSkuListItem> = z.object({
     id: z.string().min(1),
     code: z.string().min(1),
     name: z.string().min(1),
-    image_url: z.string().min(1)
+    image_url: z.string().optional()
   })
 })
 

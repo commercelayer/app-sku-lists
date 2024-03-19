@@ -21,7 +21,7 @@ export function makeFormSkuListItem(skuListItem: SkuListItem): FormSkuListItem {
       id: skuListItem.sku?.id ?? '',
       code: skuListItem.sku?.code ?? '',
       name: skuListItem.sku?.name ?? '',
-      image_url: skuListItem.sku?.image_url ?? ''
+      image_url: skuListItem.sku?.image_url ?? undefined
     }
   }
 }

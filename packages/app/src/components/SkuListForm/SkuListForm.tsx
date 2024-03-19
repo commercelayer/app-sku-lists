@@ -28,7 +28,7 @@ export interface FormSkuListItem {
   id: string
   sku_code: string
   quantity: number
-  sku: { id: string; code: string; name: string; image_url: string }
+  sku: { id: string; code: string; name: string; image_url?: string }
 }
 
 interface Props {
@@ -187,7 +187,7 @@ export function SkuListForm({
                           id: selectedSku.id,
                           code: selectedSku.code,
                           name: selectedSku.name,
-                          image_url: selectedSku.image_url ?? ''
+                          image_url: selectedSku.image_url ?? undefined
                         }
                       }
                       selectedItems?.push(newSkuListItem)

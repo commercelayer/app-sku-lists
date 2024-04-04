@@ -20,7 +20,6 @@ export const ListItemCardSkuListItem = withSkeletonTemplate<Props>(
   ({ resource, onQuantityChange, onRemoveClick }): JSX.Element | null => {
     return (
       <ListItem
-        tag='div'
         icon={
           <Avatar
             alt={resource?.sku?.name ?? ''}
@@ -28,7 +27,7 @@ export const ListItemCardSkuListItem = withSkeletonTemplate<Props>(
           />
         }
         alignItems='center'
-        variant='card'
+        variant='boxed'
         className='bg-white'
       >
         <div>

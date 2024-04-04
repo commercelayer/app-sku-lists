@@ -21,7 +21,6 @@ export const ListItemSkuList = withSkeletonTemplate<Props>(
     return (
       <ListItem
         className='items-center'
-        tag='div'
         onClick={() => {
           setLocation(appRoutes.details.makePath({ skuListId: resource.id }))
         }}

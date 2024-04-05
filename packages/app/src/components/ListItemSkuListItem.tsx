@@ -17,7 +17,6 @@ export const ListItemSkuListItem = withSkeletonTemplate<Props>(
   ({ resource = makeSkuListItem() }): JSX.Element | null => {
     return (
       <ListItem
-        tag='div'
         icon={
           <Avatar
             alt={resource.sku?.name ?? ''}

@@ -4,6 +4,7 @@ import {
   DropdownDivider,
   DropdownItem,
   EmptyState,
+  Icon,
   InputReadonly,
   PageLayout,
   Section,
@@ -90,6 +91,11 @@ export const SkuListDetails = (
 
   const contextMenu = (
     <Dropdown
+      dropdownLabel={
+        <Button variant='secondary' size='small'>
+          <Icon name='dotsThree' size={16} weight='bold' />
+        </Button>
+      }
       dropdownItems={
         <>
           {contextMenuEdit}

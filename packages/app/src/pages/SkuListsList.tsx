@@ -5,6 +5,7 @@ import {
   Button,
   EmptyState,
   HomePageLayout,
+  Icon,
   useResourceFilters,
   useTokenProvider
 } from '@commercelayer/app-elements'
@@ -80,7 +81,17 @@ export function SkuListsList(): JSX.Element {
         }
         actionButton={
           canUser('create', 'sku_lists') ? (
-            <Link href={appRoutes.new.makePath({})}>Add new</Link>
+            <Link href={appRoutes.new.makePath({})} asChild>
+              <Button
+                variant='secondary'
+                size='mini'
+                alignItems='center'
+                aria-label='Add SKU list'
+              >
+                <Icon name='plus' />
+                SKU list
+              </Button>
+            </Link>
           ) : undefined
         }
       />

@@ -89,7 +89,7 @@ export function SkuListsList(): JSX.Element {
                 aria-label='Add SKU list'
               >
                 <Icon name='plus' />
-                SKU list
+                New
               </Button>
             </Link>
           ) : undefined

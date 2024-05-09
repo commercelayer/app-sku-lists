@@ -34,7 +34,9 @@ export const ListItemSkuListItem = withSkeletonTemplate<Props>(
             {resource.sku?.name}
           </Text>
         </div>
-        <Text weight='semibold'>x {resource.quantity}</Text>
+        <Text weight='semibold' wrap='nowrap'>
+          x {resource.quantity}
+        </Text>
       </ListItem>
     )
   }

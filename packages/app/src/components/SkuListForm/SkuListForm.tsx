@@ -158,6 +158,7 @@ export function SkuListForm({
                 ))}
                 <Spacer top='2'>
                   <Button
+                    type='button'
                     variant='relationship'
                     fullWidth
                     onClick={() => {

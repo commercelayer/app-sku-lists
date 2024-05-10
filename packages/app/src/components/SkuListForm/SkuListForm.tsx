@@ -2,7 +2,6 @@ import { ListItemCardSkuListItem } from '#components/ListItemCardSkuListItem'
 import { useAddItemOverlay } from '#hooks/useAddItemOverlay'
 import {
   Button,
-  ButtonCard,
   HookedForm,
   HookedInput,
   HookedInputTextArea,
@@ -158,14 +157,15 @@ export function SkuListForm({
                   </Spacer>
                 ))}
                 <Spacer top='2'>
-                  <ButtonCard
-                    iconLabel='Add item'
-                    padding='4'
+                  <Button
+                    variant='relationship'
                     fullWidth
                     onClick={() => {
                       showAddItemOverlay(selectedItemsCodes)
                     }}
-                  />
+                  >
+                    Add item
+                  </Button>
                 </Spacer>
                 <Spacer top='2'>
                   <HookedValidationError name='items' />

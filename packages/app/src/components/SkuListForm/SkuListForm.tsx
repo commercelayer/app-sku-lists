@@ -90,11 +90,9 @@ export function SkuListForm({
     (activeTab) => {
       if (activeTab === 0 && !watchedFormManual) {
         skuListFormMethods.setValue('manual', true)
-        skuListFormMethods.setValue('sku_code_regex', '')
       }
       if (activeTab === 1 && watchedFormManual) {
         skuListFormMethods.setValue('manual', false)
-        skuListFormMethods.setValue('items', [])
       }
     },
     [skuListFormMethods, watchedFormManual]

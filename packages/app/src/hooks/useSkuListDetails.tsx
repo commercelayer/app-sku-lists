@@ -14,20 +14,9 @@ export function useSkuListDetails(id: string): {
     isLoading,
     error,
     mutate: mutateSkuList
-  } = useCoreApi(
-    'sku_lists',
-    'retrieve',
-    [
-      id,
-      {
-        include: ['sku_list_items', 'sku_list_items.sku']
-      }
-    ],
-    {
-      isPaused: () => isMockedId(id),
-      fallbackData: makeSkuList()
-    }
-  )
+  } = useCoreApi('sku_lists', 'retrieve', isMockedId(id) ? null : [id], {
+    fallbackData: makeSkuList()
+  })
 
   return { skuList, error, isLoading, mutateSkuList }
 }

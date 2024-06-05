@@ -1,5 +1,6 @@
 import { ListItemCardSkuListItem } from '#components/ListItemCardSkuListItem'
 import { useAddItemOverlay } from '#hooks/useAddItemOverlay'
+import { useSkuListItems } from '#hooks/useSkuListItems'
 import {
   Button,
   HookedForm,
@@ -27,6 +28,7 @@ export interface FormSkuListItem {
   id: string
   sku_code: string
   quantity: number
+  position: number
   sku: { id: string; code: string; name: string; image_url?: string }
 }
 
@@ -48,6 +50,7 @@ export function SkuListForm({
   apiError,
   isSubmitting
 }: Props): JSX.Element {
+  const { skuListItems } = useSkuListItems(resource?.id ?? '')
   const skuListFormMethods = useForm<SkuListFormValues>({
     defaultValues,
     resolver: zodResolver(skuListFormSchema)
@@ -71,20 +74,20 @@ export function SkuListForm({
   }, [watchedFormItems])
 
   useEffect(() => {
-    if (resource != null) {
+    if (resource != null && skuListItems != null) {
       const selectedItems = skuListFormMethods.getValues('items') ?? []
-      resource.sku_list_items?.forEach((item) => {
+      skuListItems?.forEach((item, idx) => {
         if (
           selectedItems.filter(
             (selectedItem) => selectedItem.sku_code === item.sku_code
           ).length === 0
         ) {
-          selectedItems?.push(makeFormSkuListItem(item))
+          selectedItems?.push(makeFormSkuListItem(item, idx + 1))
         }
       })
       skuListFormMethods.setValue('items', selectedItems)
     }
-  }, [resource])
+  }, [resource, skuListItems])
 
   const handleOnTabSwitch = useCallback<NonNullable<TabsProps['onTabSwitch']>>(
     (activeTab) => {
@@ -182,6 +185,7 @@ export function SkuListForm({
                         id: '',
                         sku_code: selectedSku.code,
                         quantity: 1,
+                        position: selectedItems.length + 1,
                         sku: {
                           id: selectedSku.id,
                           code: selectedSku.code,

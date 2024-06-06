@@ -12,11 +12,15 @@ import type {
   SkuListUpdate
 } from '@commercelayer/sdk'
 
-export function makeFormSkuListItem(skuListItem: SkuListItem): FormSkuListItem {
+export function makeFormSkuListItem(
+  skuListItem: SkuListItem,
+  itemIndex: number
+): FormSkuListItem {
   return {
     id: skuListItem.id,
     quantity: skuListItem.quantity ?? 1,
     sku_code: skuListItem.sku_code ?? '',
+    position: skuListItem.position ?? itemIndex,
     sku: {
       id: skuListItem.sku?.id ?? '',
       code: skuListItem.sku?.code ?? '',

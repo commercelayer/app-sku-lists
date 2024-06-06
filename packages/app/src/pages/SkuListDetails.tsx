@@ -20,6 +20,7 @@ import { Link, useLocation } from 'wouter'
 import { ListItemSkuListItem } from '#components/ListItemSkuListItem'
 import { appRoutes, type PageProps } from '#data/routes'
 import { useSkuListDetails } from '#hooks/useSkuListDetails'
+import { useSkuListItems } from '#hooks/useSkuListItems'
 import { useState } from 'react'
 
 export const SkuListDetails = (
@@ -34,6 +35,7 @@ export const SkuListDetails = (
   const skuListId = props.params?.skuListId ?? ''
 
   const { skuList, isLoading, error } = useSkuListDetails(skuListId)
+  const { skuListItems, isLoadingItems } = useSkuListItems(skuListId)
 
   const { sdkClient } = useCoreSdkProvider()
 
@@ -126,13 +128,13 @@ export const SkuListDetails = (
       scrollToTop
       gap='only-top'
     >
-      <SkeletonTemplate isLoading={isLoading}>
+      <SkeletonTemplate isLoading={isLoadingItems}>
         <Spacer top='12' bottom='4'>
           <Section title='Items'>
             {skuList.manual === true ? (
               <>
-                {skuList.sku_list_items != null
-                  ? skuList.sku_list_items.map((item) => (
+                {skuListItems != null
+                  ? skuListItems.map((item) => (
                       <ListItemSkuListItem
                         key={item.sku_code}
                         resource={item}

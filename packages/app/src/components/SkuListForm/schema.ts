@@ -5,6 +5,7 @@ const formSkuListItemSchema: z.ZodType<FormSkuListItem> = z.object({
   id: z.string(),
   sku_code: z.string().min(1),
   quantity: z.number().min(1),
+  position: z.number().min(1),
   sku: z.object({
     id: z.string().min(1),
     code: z.string().min(1),

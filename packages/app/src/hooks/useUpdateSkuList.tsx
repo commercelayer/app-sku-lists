@@ -26,15 +26,17 @@ export function useUpdateSkuList(): UpdateSkuListHook {
 
       try {
         const skuList = adaptFormValuesToSkuListUpdate(formValues)
-        const updatedSkuList = await sdkClient.sku_lists.update(skuList, {
-          include: ['sku_list_items', 'sku_list_items.sku']
-        })
+        const updatedSkuList = await sdkClient.sku_lists.update(skuList)
+        const skuListItems = await sdkClient.sku_lists.sku_list_items(
+          skuList.id,
+          { include: ['sku'] }
+        )
         // SKU list resource is updated. Now it's time to update related SKU list items.
         if (formValues.manual && updatedSkuList.id != null) {
           // Create or update items
           await Promise.all(
             formValues.items.map(async (item) => {
-              const itemToUpdate = updatedSkuList.sku_list_items?.find(
+              const itemToUpdate = skuListItems?.find(
                 (skuListItem) =>
                   skuListItem.sku_code === item.sku_code &&
                   skuListItem.quantity !== item.quantity
@@ -43,11 +45,12 @@ export function useUpdateSkuList(): UpdateSkuListHook {
               if (itemToUpdate != null) {
                 await sdkClient.sku_list_items.update({
                   id: itemToUpdate.id,
-                  quantity: item.quantity
+                  quantity: item.quantity,
+                  position: item.position
                 })
               }
               const isExistingItem = Boolean(
-                updatedSkuList.sku_list_items?.some(
+                skuListItems?.some(
                   (skuListItem) => skuListItem.sku_code === item.sku_code
                 )
               )
@@ -63,9 +66,9 @@ export function useUpdateSkuList(): UpdateSkuListHook {
             })
           )
           // Check if any of the old items needs to be removed
-          if (updatedSkuList.sku_list_items != null) {
+          if (skuListItems != null) {
             await Promise.all(
-              updatedSkuList.sku_list_items?.map(async (oldItem) => {
+              skuListItems?.map(async (oldItem) => {
                 const itemIsInFormItems = Boolean(
                   formValues.items.some(
                     (item) => item.sku_code === oldItem.sku_code

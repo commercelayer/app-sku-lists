@@ -39,7 +39,8 @@ export function useUpdateSkuList(): UpdateSkuListHook {
               const itemToUpdate = skuListItems?.find(
                 (skuListItem) =>
                   skuListItem.sku_code === item.sku_code &&
-                  skuListItem.quantity !== item.quantity
+                  (skuListItem.quantity !== item.quantity ||
+                    skuListItem.position !== item.position)
               )
               // Item needs to be updated. Item exists but quantity needs to be updated.
               if (itemToUpdate != null) {

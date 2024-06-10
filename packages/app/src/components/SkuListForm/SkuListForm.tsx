@@ -8,6 +8,7 @@ import {
   HookedInputTextArea,
   HookedValidationApiError,
   HookedValidationError,
+  Icon,
   Section,
   Spacer,
   Tab,
@@ -15,8 +16,29 @@ import {
   type TabsProps
 } from '@commercelayer/app-elements'
 import type { SkuList } from '@commercelayer/sdk'
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+  type DragEndEvent
+} from '@dnd-kit/core'
+import {
+  restrictToParentElement,
+  restrictToVerticalAxis
+} from '@dnd-kit/modifiers'
+import {
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, type CSSProperties } from 'react'
 import { useForm, type UseFormSetError } from 'react-hook-form'
 import { type z } from 'zod'
 import { skuListFormSchema } from './schema'
@@ -50,6 +72,13 @@ export function SkuListForm({
   apiError,
   isSubmitting
 }: Props): JSX.Element {
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates
+    })
+  )
+
   const { skuListItems } = useSkuListItems(resource?.id ?? '')
   const skuListFormMethods = useForm<SkuListFormValues>({
     defaultValues,
@@ -101,6 +130,79 @@ export function SkuListForm({
     [skuListFormMethods, watchedFormManual]
   )
 
+  const handleDragEnd = useCallback<any>(
+    (event: DragEndEvent) => {
+      const { active, over } = event
+      if (active.id !== over?.id) {
+        const oldIndex = watchedFormItems.findIndex(
+          (obj) => obj.id === active.id
+        )
+        const newIndex = watchedFormItems.findIndex(
+          (obj) => obj.id === over?.id
+        )
+        const newItems = arrayMove(watchedFormItems, oldIndex, newIndex)
+        const fixedItems = newItems.map((item, idx) => {
+          item.position = idx + 1
+          return item
+        })
+        skuListFormMethods.setValue('items', fixedItems)
+      }
+    },
+    [watchedFormItems]
+  )
+
+  const Item: React.FC<{ item: FormSkuListItem }> = ({ item }) => {
+    const { attributes, listeners, setNodeRef, transform, transition, active } =
+      useSortable({ id: item.id, data: item })
+
+    const style: CSSProperties = {
+      transform: CSS.Transform.toString(transform),
+      transition,
+      position: 'relative',
+      zIndex: active?.id === item.id ? 999 : undefined
+    }
+
+    return (
+      <div ref={setNodeRef} style={style}>
+        <Spacer top='2' key={item.sku_code}>
+          <ListItemCardSkuListItem
+            resource={item}
+            onQuantityChange={(resource, quantity) => {
+              const updatedSelectedItems: FormSkuListItem[] = []
+              watchedFormItems.forEach((item) => {
+                if (item.sku_code === resource.sku_code) {
+                  item.quantity = quantity
+                }
+                updatedSelectedItems.push(item)
+              })
+              skuListFormMethods.setValue('items', updatedSelectedItems)
+            }}
+            onRemoveClick={(resource) => {
+              const updatedSelectedItems: FormSkuListItem[] = []
+              watchedFormItems.forEach((item) => {
+                if (item.sku_code !== resource.sku_code) {
+                  updatedSelectedItems.push(item)
+                }
+              })
+              skuListFormMethods.setValue('items', updatedSelectedItems)
+            }}
+            draggableElement={
+              <Button
+                {...listeners}
+                {...attributes}
+                variant='circle'
+                className='!p-2 touch-none'
+                type='button'
+              >
+                <Icon name='x' />
+              </Button>
+            }
+          />
+        </Spacer>
+      </div>
+    )
+  }
+
   return (
     <>
       <HookedForm
@@ -125,38 +227,23 @@ export function SkuListForm({
               defaultTab={defaultTab}
             >
               <Tab name='Manual'>
-                {watchedFormItems?.map((item) => (
-                  <Spacer top='2' key={item.sku_code}>
-                    <ListItemCardSkuListItem
-                      resource={item}
-                      onQuantityChange={(resource, quantity) => {
-                        const updatedSelectedItems: FormSkuListItem[] = []
-                        watchedFormItems.forEach((item) => {
-                          if (item.sku_code === resource.sku_code) {
-                            item.quantity = quantity
-                          }
-                          updatedSelectedItems.push(item)
-                        })
-                        skuListFormMethods.setValue(
-                          'items',
-                          updatedSelectedItems
-                        )
-                      }}
-                      onRemoveClick={(resource) => {
-                        const updatedSelectedItems: FormSkuListItem[] = []
-                        watchedFormItems.forEach((item) => {
-                          if (item.sku_code !== resource.sku_code) {
-                            updatedSelectedItems.push(item)
-                          }
-                        })
-                        skuListFormMethods.setValue(
-                          'items',
-                          updatedSelectedItems
-                        )
-                      }}
-                    />
-                  </Spacer>
-                ))}
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleDragEnd}
+                  modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+                >
+                  {watchedFormItems != null && (
+                    <SortableContext
+                      items={watchedFormItems}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      {watchedFormItems.map((item) => (
+                        <Item item={item} key={item.sku_code} />
+                      ))}
+                    </SortableContext>
+                  )}
+                </DndContext>
                 <Spacer top='2'>
                   <Button
                     type='button'

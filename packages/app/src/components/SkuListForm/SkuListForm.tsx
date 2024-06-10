@@ -194,7 +194,7 @@ export function SkuListForm({
                 className='!p-2 touch-none'
                 type='button'
               >
-                <Icon name='x' />
+                <Icon name='dotsSixVertical' />
               </Button>
             }
           />
